@@ -1,0 +1,10 @@
+To build libraries and test executable
+
+$ make
+
+To run the test
+
+$ export LD_LIBRARY_PATH=./:$LD_LIBRARY_PATH
+$ ./test <lib_file_name>
+
+where <lib_file_name> can be one libfoo1.so or libfoo2.so.
