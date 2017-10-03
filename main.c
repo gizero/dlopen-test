@@ -4,13 +4,13 @@
        #include <gnu/lib-names.h>  /* Defines LIBM_SO (which will be a
                                       string such as "libm.so.6") */
        int
-       main(void)
+       main(int argc, char *argv[])
        {
            void *handle;
-           double (*cosine)(double);
+           void (*foo)(void);
            char *error;
 
-           handle = dlopen(LIBM_SO, RTLD_LAZY);
+           handle = dlopen(argv[1], RTLD_LAZY);
            if (!handle) {
                fprintf(stderr, "%s\n", dlerror());
                exit(EXIT_FAILURE);
@@ -18,7 +18,7 @@
 
            dlerror();    /* Clear any existing error */
 
-           cosine = (double (*)(double)) dlsym(handle, "cos");
+           foo = (void (*)(void)) dlsym(handle, "foo");
 
            /* According to the ISO C standard, casting between function
               pointers and 'void *', as done above, produces undefined results.
@@ -42,7 +42,7 @@
                exit(EXIT_FAILURE);
            }
 
-           printf("%f\n", (*cosine)(2.0));
+           foo();
            dlclose(handle);
            exit(EXIT_SUCCESS);
        }
